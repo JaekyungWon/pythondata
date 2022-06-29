@@ -53,9 +53,12 @@
 
 
 import re
-custlist=[]
-page=-1
- 
+custlist=[{'name': '홍길동', 'gender': 'M', 'email': 'ashdkl@gildong.com', 'birth': '2000'},
+          {'name': '미미', 'gender': 'F', 'email': 'asdasdasd@naver.com', 'birth': '1995'},
+          {'name': 'MOMO', 'gender': 'F', 'email': 'momo198@gmail.com', 'birth': '2004'}]
+# custlist = []
+page = len(custlist)-1
+
 while True:
     choice=input('''
     다음 중에서 하실 일을 골라주세요 :
@@ -68,45 +71,103 @@ while True:
     Q - 프로그램 종료
     ''').upper()  
 
-    if choice=="I":  
-       pass
-        # 이거는 내가 해본 것
-        # print('고객 정보 입력')
+    # 입력
+    if choice=="I":
+        # 이름  
+        customer = {}
+        customer['name'] = input('이름 >>>')
+        # 성별
+        while True:
+            customer['gender'] = input('성별(M/F) >>>').upper()
+            if customer['gender'] in ('M', 'F'):
+                break
+        # 이메일 -> pk로 쓸 것
+        while True:
+            p = re.compile('[a-z][a-z0-9]{4,}@[a-z]{2,}[.](kr|com|org|net)$')
+            while True:
+                customer['email'] = input('이메일 >>>')
+                result = p.match(customer['email'])
+                if result:
+                    break
+                else:
+                    print('정확한 이메일을 입력하세요')
+            check = 0
+            for i in custlist:
+                if customer['email'] == i['email']:
+                    check =1
+            if check ==0:
+                break
+            else:
+                print('중복된 이메일이 있습니다')
+        # 출생연도
+        while True:
+            customer['birth'] = input('출생연도 4자리>>>')
+            if len(customer['birth']) == 4 and customer['birth'].isdigit():
+                break
+
+        # custlist에 입력 받은 값 추가
+        custlist.append(customer)
+
+        # 페이지 +1
+        page = len(custlist) -1
+        print(customer)
+        print(custlist)
         
-        # customerName=input('이름을 입력하세요>>>')
-        # customerGender = input('성별을 입력하세요(M/F)>>>')
-        # if customerGender == 'f':
-        #     customerGender = customerGender.upper()
-
-        # p = re.compile('[a-z][a-z0-9]{4,}@[a-z]{2,}[.](kr|com|org|net)$')
-        # email = input('이메일을 입력하세요 >>>')
-        # customerEmail = p.match(email)
-        # if customerEmail:
-        #     print()#customerlist에 추가
-        # else:
-        #     print('정확한 이메일 주소를 입력해주세요')
-
-        # customerBirth = ''
-        # while not customerBirth.isdigit():
-        #     customerBirth = input('출생년도를 입력하세요 >>>')
-                
-        # customerList = []
-        # customerInfo = {'customerName':customerName, 'customerGender':customerGender,
-        # 'customerEmail':customerEmail, 'customerBirth':customerBirth}
-        # customerList.append(customerInfo)
-        # print(customerList)
+    # 조회(C, P, N)   
     elif choice=="C": 
-        pass
+        if page < 0:
+            print('입력된 정보가 없습니다.')
+        else:
+            print(f'현재 페이지는 {page+1}번째 페이지입니다.')
+        print(custlist)
     elif choice == 'P':
-        pass
+        if page <= 0:
+            print('첫번째 페이지입니다. 이전 페이지 이동 불가~!')
+        else:
+            page -= 1
+            print(f'현재 페이지는 {page+1}번째 페이지입니다.')
+            print(custlist[page])
+        print(page)
     elif choice == 'N':
-        pass
+        if page >= len(custlist) -1:
+            print('마지막 페이지입니다 ^^ 다음 페이지 없음~!')
+        else:
+            page +=1
+            print(f'현재 페이지는 {page+1}번째 페이지입니다.')
+            print(custlist[page])
+        print(page)
+    # 삭제
     elif choice=='D':
-        pass
+        print(custlist)
+        email = input('삭제하려는 이메일을 입력하세요 >>>')
+        delok = 0
+        for i in range(len(custlist)):
+            if email == custlist[i]['email']:
+                print('{} 고객님의 정보가 삭제됩니다'.format(custlist[i]['name']))
+                del custlist[i]
+                delok = 1
+                break
+        if delok == 0:
+            print('등록되지 않은 고객입니다.')
+        print(custlist)
+    # 수정
     elif choice=="U": 
-        pass
+        while True:
+            email = input('수정하려는 이메일을 입력하세요 >>>')
+            idx = -1
+            for i in range(len(custlist)):
+                if email == custlist[i]['email']:
+                    idx = i
+                    break
+            if idx == -1:
+                print('등록되지 않은 이메일입니다.')
+                break
+            choice1 = input('''
+            다음 중 수정할 항목을 선택하세요(name, gender, birth) >>>
+            ''')
+            custlist[idx][choice1] = input('수정 할 {} 를 입력하세요 >>>'.format(choice1))
+            print(custlist)
+            break
     elif choice=="Q":
         break
-
-
 
