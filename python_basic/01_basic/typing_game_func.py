@@ -4,7 +4,7 @@
 # - 한번 출제된 문제는 맞출때까지 반복
 # - 전체 5문제를 출제 다 맞추면 종료
 
-import json,time,os,random
+import json,time,random
 
 # 파일경로 로드
 def data_load(path):
@@ -12,7 +12,7 @@ def data_load(path):
     data = json.load(f)
     f.close()
     return data
-
+    
 # 게임
 def game(word,rank):
     print('게임시작!')

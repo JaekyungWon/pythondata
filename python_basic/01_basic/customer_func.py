@@ -1,4 +1,18 @@
-import re
+import re, json
+
+# 파일경로 로드
+def data_load(path):
+    f = open(path,'r')
+    data = json.load(f)
+    f.close()
+    return data
+    
+# 데이터 저장
+def data_save(path, data):
+    f = open(path,'w')
+    json.dump(data,f,indent=True)
+    # indent=True하면 데이터가 줄맞춰서 나와서 보기가 편하다
+    f.close()
 
 # 입력 함수
 def inputInfo(custlist):
@@ -41,6 +55,8 @@ def inputInfo(custlist):
     page = len(custlist) -1
     print(customer)
     print(custlist)
+    # 함수로 불러올 때 page값은 return 해줘야된다
+    return page
 
 # 조회 함수 C
 def showListC(custlist, page):
@@ -48,7 +64,7 @@ def showListC(custlist, page):
         print('입력된 정보가 없습니다.')
     else:
         print(f'현재 페이지는 {page+1}번째 페이지입니다.')
-    print(custlist)
+        print(custlist[page])
 
 # 조회 함수 P
 def showListP(custlist, page):
@@ -59,6 +75,8 @@ def showListP(custlist, page):
         print(f'현재 페이지는 {page+1}번째 페이지입니다.')
         print(custlist[page])
     print(page)
+    return page # -1한 변경된 page값 return 해줘야됨
+
 
 # 조회 함수 N
 def showListN(custlist, page):
@@ -69,6 +87,7 @@ def showListN(custlist, page):
         print(f'현재 페이지는 {page+1}번째 페이지입니다.')
         print(custlist[page])
     print(page)
+    return page
 
 # 삭제 함수
 def delInfo(custlist):
