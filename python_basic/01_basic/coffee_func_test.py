@@ -1,6 +1,6 @@
 import sys, json
-class CoffeeMachine:
 
+class CoffeeMachine:
     # 커피자판기
     def coffee_machine(self):
         while True:
