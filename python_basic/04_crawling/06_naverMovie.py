@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+# 네이버 영화 (리뷰,평점 페이지)1~10 page까지 데이터 가져오기
 url = 'https://movie.naver.com/movie/point/af/list.naver?page={}'
 reviewlist = []
 for i in range(1,11):
@@ -22,10 +23,10 @@ for i in range(1,11):
                 # print('영화 제목 : ', recode1)
                 recode2 = c.select_one('em').text
                 # print('영화 평점 : ', recode2)
-                recode3 = c.text.strip()
-                recode3 = recode3.replace(recode1, '').strip()      # 영화 제목 없애기
-                recode3 = recode3.replace('신고', '').strip()       # 신고 글자 없애기
-                recode3 = re.sub('별점 - 총 10점 중[0-9]{1,2}','',recode3).strip()                          # re.sub(패턴, 바꿀 문자열, recode3)
+                recode3 = c.text
+                recode3 = recode3.replace(recode1, '')              # 영화 제목 없애기
+                recode3 = recode3.replace('신고', '')               # 신고 글자 없애기
+                recode3 = re.sub('별점 - 총 10점 중[0-9]{1,2}','',recode3).strip()          # re.sub(패턴, 바꿀 문자열, recode3)
                 # print('리뷰 : ', recode3)
                 try:
                     movie_dic={
@@ -38,29 +39,3 @@ for i in range(1,11):
                     pass
 
 print(reviewlist)
-
-# soup.select, selectone : css 이용 하는 것
-# soup.find
-
-# # 영화 제목
-# title = soup.select('td.title > a.movie')
-# titles = []
-# for i in title:
-#     titles.append(i.text)
-# # print(titles)
-
-# # 평점
-# star = soup.select('div.list_netizen_score > em')
-# stars = []
-# for i in star:
-#     stars.append(i.string)
-# # print(stars)
-
-# # 후기
-# article = soup.select('td.title')
-# articles = []
-# for i in article:
-#     articles.append(i.text)
-# print(articles)
-
-# print(list(zip(titles,stars,articles)))
