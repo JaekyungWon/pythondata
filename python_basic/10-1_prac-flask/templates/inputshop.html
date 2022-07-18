@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <br/>
+    <h4>메모장</h4>
+    <form action="/inputform" method="post">
+        <div class="mb-3">
+          <label for="Item" class="form-label">Item</label>
+          <input type="text" class="form-control" id="Item" name="item" aria-describedby="ItemHelp">
+          <div id="ItemHelp" class="form-text">할일을 입력해주세요</div>
+        </div>
+        <div class="mb-3">
+            <label for="Price" class="form-label">Price</label>
+            <input type="text" class="form-control" id="Price" name="price" aria-describedby="PriceHelp">
+            <div id="PriceHelp" class="form-text">가격을 입력해주세요</div>
+          </div>
+        <div class="mb-3">
+            <label for="Shop" class="form-label">Shop</label>
+            <input type="text" class="form-control" id="Shop" name="shop" aria-describedby="ShopHelp">
+            <div id="ShopHelp" class="form-text">쇼핑몰 주소를 입력하세요</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="Date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="Date" name="date" aria-describedby="DateHelp">
+            <div id="DateHelp" class="form-text">날짜를 입력해주세요</div>
+          </div>
+        <div class="mb-3">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="wish">
+                <option value="Must">무족권 사야 됨</option>
+                <option value="Wish" selected>사고 싶음</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">메모</button>
+      </form>
+
+</div>
+{% endblock %}

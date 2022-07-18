@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <br/>
+    <h4>회원 정보 목록</h4>    
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Item</th>
+              <th scope="col">Price</th>
+              <th scope="col">Shop</th>
+              <th scope="col">Date</th>
+              <th scope="col">Wish</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in data %}
+            <tr>
+              <th scope="row">{{loop.index}}</th>       <!--1부터 인덱스 값이 부여된다-->
+              <td>{{i[0]}}</td>
+              <td>{{i[1]}}</td>
+              <td>{{i[2]}}</td>
+              <td>{{i[3]}}</td>
+              <td>{{i[4]}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <br/>
+    <h4>회원 정보 입력</h4>
+    <form action="/inputform" method="post">
+        <div class="mb-3">
+          <label for="Name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="Name" name="name" aria-describedby="NameHelp">
+          <div id="NameHelp" class="form-text">이름을 입력해주세요</div>
+        </div>
+        <div class="mb-3">
+            <label for="Email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="Email" name="email" aria-describedby="EmailHelp">
+            <div id="EmailHelp" class="form-text">이메일을 입력해주세요</div>
+          </div>
+        <div class="mb-3">
+            <label for="Tel" class="form-label">Tel</label>
+            <input type="text" class="form-control" id="Tel" name="tel" aria-describedby="TelHelp">
+            <div id="TelHelp" class="form-text">전화번호는 -를 넣어서 입력하세요</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="Address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="Address" name="address" aria-describedby="AddressHelp">
+            <div id="AddressHelp" class="form-text">도로명 주소로 입력해주세요</div>
+          </div>
+        <div class="mb-3">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="gender">
+                <option value="남자">남자</option>
+                <option value="여자" selected>여자</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+</div>
+{% endblock %}
