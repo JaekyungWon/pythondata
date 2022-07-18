@@ -26,6 +26,7 @@ class bookRental:
         elif RentalServiceDisplay =='4':
             pass
         elif RentalServiceDisplay =='5':
+            print('안녕!')
             sys.exit()
         else:
             print('1~5까지의 숫자를 입력 하세요^_^')
@@ -37,29 +38,26 @@ class bookRental:
 
     # 회원 서비스 =======================================================================
     def memberService(self):
-        while True:
-            # 회원 등록, 수정, 삭제, 리스트 보기
-            memberMenu =input('''
+        # 회원 등록, 수정, 삭제, 리스트 보기
+        memberMenu =input('''
 ================================================================
 1.회원등록 2.회원정보 수정 3.삭제 4.회원 리스트 보기 5.뒤로가기
 ================================================================
 >>>''')
-            while True:
-                memberChoice = input(memberMenu)
-                # member create/insert
-                if memberChoice =='1':
-                    self.insertMember()
-                # member update    
-                elif memberChoice == '2':
-                    self.updateMember()
-                # member delete
-                elif memberChoice == '3':
-                    self.deleteMember()
-                # member select
-                elif memberChoice == '4':
-                    self.selectMember()
-                elif memberChoice == '5':
-                    break
+        # member create/insert
+        if memberMenu =='1':
+            self.insertMember()
+        # member update    
+        elif memberMenu == '2':
+            self.updateMember()
+        # member delete
+        elif memberMenu == '3':
+            self.deleteMember()
+        # member select
+        elif memberMenu == '4':
+            self.selectMember()
+        elif memberMenu == '5':
+            self.display()
 
     # create member table
     def insertMember(self):
@@ -89,18 +87,17 @@ class bookRental:
         con = sqlite3.connect('python_basic/04_project/member.db')
         cur = con.cursor()
 
-        cur.execute('SELECT MID, MNAME, TEL, BIRTH FROM MEMBER')
+        cur.execute('SELECT MID, MNAME, TEL, BIRTH FROM MEMBER ORDER BY MID')
         data = cur.fetchall()
         for i in data:
             print(i)
 
-        # 이거 다시 만들기
         try:
-            mid = cur.execute('')
+            mid = input('수정할 회원 아이디를 입력 하세요 >>>')
             col = input('수정할 컬럼을 선택하세요 (mname, tel, birth)>>>')
             updatedVal = input('수정할 내용을 입력하세요 >>>')
-            sql = f'UPDATE MEMBER SET ? = ? WHERE MID = ?'
-            cur.execute(sql,(col, updatedVal, mid))
+            sql = f'UPDATE MEMBER SET {col} = ? WHERE MID = ?'
+            cur.execute(sql,(updatedVal, mid))
 
         except sqlite3.Error as e:
             print(e)
@@ -118,24 +115,29 @@ class bookRental:
         data = cur.fetchall()
         for i in data:
             print(i)
+        try:
+            mid = input('삭제하시려는 회원의 아이디를 입력하세요 >>>')
+            sql = 'DELETE FROM MEMBER WHERE MID = ?'
+            cur.execute(sql,(mid,))
 
-        mid = input('삭제하시려는 회원의 아이디를 입력하세요 >>>')
-        sql = 'DELETE FROM MEMBER WHERE MID = ?'
-        cur.execute(sql,(mid,))
-
-        con.commit()
-        con.close()
-        print('삭제 완!')
+        except sqlite3.Error as e:
+            print(e)
+        else:
+            con.commit()
+            con.close()
+            print('삭제 완!')
 
     # select member
     def selectMember(self):
         con = sqlite3.connect('python_basic/04_project/member.db')
         cur = con.cursor()
 
-        cur.execute('SELECT MID, MNAME, TEL, BIRTH FROM MEMBER')
+        cur.execute('SELECT MID, MNAME, TEL, BIRTH FROM MEMBER ORDER BY MID')
         data = cur.fetchall()
         for i in data:
             print(i)
+
+        con.close()
 
     # 도서 서비스 =======================================================================
     def bookService(self):
@@ -144,22 +146,20 @@ class bookRental:
 1.도서등록 2.도서정보 수정 3.삭제 4.도서 리스트 보기 5.뒤로가기
 ================================================================
 >>>''')
-        while True:
-            bookChoice = input(BookMenu)
-            # book insert
-            if bookChoice =='1':
-                self.insertBooks()
-            # book update
-            elif bookChoice =='2':
-                self.updateBooks()
-            # book delete
-            elif bookChoice =='3':
-                self.deleteBooks()
-            # book select
-            elif bookChoice =='4':
-                self.selectBooks()
-            elif bookChoice =='5':
-                break
+        # book insert
+        if BookMenu =='1':
+            self.insertBooks()
+        # book update
+        elif BookMenu =='2':
+            self.updateBooks()
+        # book delete
+        elif BookMenu =='3':
+            self.deleteBooks()
+        # book select
+        elif BookMenu =='4':
+            self.selectBooks()
+        elif BookMenu =='5':
+            self.display()
 
     # create table books
     def insertBooks(self):
@@ -190,12 +190,17 @@ class bookRental:
         con = sqlite3.connect('python_basic/04_project/book.db')
         cur = con.cursor()
 
+        cur.execute('SELECT BID, BNAME, AUTHOR, PUBLISHER FROM BOOKS ORDER BY BID')
+        data = cur.fetchall()
+        for i in data:
+            print(i)
+            
         bid = input('수정하실 책 아이디를 입력하세요 >>>')
         col = input('수정하실 컬럼을 선택하세요(bname, author, publisher) >>>')
         updatedVal = input('수정할 내용을 입력하세요 >>>')
 
         sql = f'UPDATE BOOKS SET {col} = ? WHERE BID = ?'
-        cur.execute(sql, (bid, updatedVal))
+        cur.execute(sql, (updatedVal, bid))
 
         con.commit()
         con.close()
@@ -206,7 +211,7 @@ class bookRental:
         con = sqlite3.connect('python_basic/04_project/book.db')
         cur = con.cursor()
 
-        cur.execute('SELECT BID, BNAME, AUTHOR, PUBLISHER FROM BOOKS')
+        cur.execute('SELECT BID, BNAME, AUTHOR, PUBLISHER FROM BOOKS ORDER BY BID')
         data = cur.fetchall()
         for i in data:
             print(i)
@@ -223,7 +228,7 @@ class bookRental:
         con = sqlite3.connect('python_basic/04_project/book.db')
         cur = con.cursor()
 
-        cur.execute('SELECT BID, BNAME, AUTHOR, PUBLISHER FROM BOOKS')
+        cur.execute('SELECT BID, BNAME, AUTHOR, PUBLISHER FROM BOOKS ORDER BY BID')
         data = cur.fetchall()
         for i in data:
             print(i)
@@ -236,7 +241,7 @@ class bookRental:
         cur = con.cursor()
         cur.execute('''
         CREATE TABLE IF NOT EXISTS RENT(
-            rid integer,
+            rid INTEGER PRIMARY KEY AUTOINCREMENT,
             mid integer,
             bid integer,
             rday date
@@ -248,11 +253,13 @@ class bookRental:
         con = sqlite3.connect('python_basic/04_project/rent.db')
         cur = con.cursor() 
         
-        sql = 'INSERT INTO RENT VALUES(?,?,?,?)'
-        rid = input('대출아이디를 입력하세요 >>>')
+        sql = 'INSERT INTO RENT VALUES(?,?,?)'
         mid = input('회원아이디를 입력하세요 >>>')
         bid = input('도서아이디를 입력하세요 >>>')
         rday = cur.execute("SELECT date('now','start of month','+14 day')")
-        cur.execute(sql,(rid,mid,bid,rday))
+        cur.execute(sql,(mid,bid,rday))
+
+        con.commit()
+        con.close()
 
 bookRental()
